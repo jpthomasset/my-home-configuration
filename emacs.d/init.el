@@ -9,4 +9,7 @@
 (scroll-bar-mode 0)
 (fset `yes-or-no-p `y-or-n-p)
 (load-theme 'monokai t)
-(set-face-attribute 'default nil :height 105)
+; Set font size in 1/10pt
+(set-face-attribute 'default nil :height 100)
+; Set backup dir to ~/.saves
+(setq backup-directory-alist `(("." . "~/.saves")))
