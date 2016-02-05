@@ -67,3 +67,5 @@
 * elpa/php-mode
 * elpa/js2-mode
 * elpa/jdee
+* scala-mode2
+* sbt-mode
