@@ -65,3 +65,5 @@
 * elpa/markdown-mode
 * elpa/monokai-theme
 * elpa/php-mode
+* elpa/js2-mode
+* elpa/jdee
