@@ -8,6 +8,7 @@
 * `M-:` Evaluate an expression
 * `C-h c <keys>` Get one line help for the given keys
 * `C-h k <keys>` Get full help for the keys
+* `C-h f <function>` Describe the given function (help)
 * `C-u <N> <keys>` Repeat <keys> N times
 
 ## Navigation
