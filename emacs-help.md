@@ -61,6 +61,9 @@ Available through the following functions
 * `pr-ps-region-preview` Preview print the selected region
 * `pr-ps-region-print` Print the selected region
 
+## Custom defined (see init.el)
+* `C-xg` Open URL under the cursor in your default browser
+
 ## Package management
 
 * `M-x list-packages` List available packages

@@ -13,6 +13,8 @@
 (set-face-attribute 'default nil :height 100)
 ; Set backup dir to ~/.saves
 (setq backup-directory-alist `(("." . "~/.saves")))
+; Open url underneath cursor `C-xg` for `go`
+(global-set-key "\C-xg" 'browse-url-at-point)
 					; Print options
 ;(setq pr-ps-name       'MPC2050)
 ;(setq pr-ps-printer-alist     '((MPC2050 "lpr" nil "-P" "MPC2050")))
