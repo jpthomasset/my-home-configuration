@@ -8,6 +8,7 @@
 * `M-:` Evaluate an expression
 * `C-h c <keys>` Get one line help for the given keys
 * `C-h k <keys>` Get full help for the keys
+* `C-h f <function>` Describe the given function (help)
 * `C-u <N> <keys>` Repeat <keys> N times
 
 ## Navigation
@@ -52,6 +53,16 @@
 * `C-x 2` Split horizontaly
 * `C-x 3` Split verticaly
 * `C-x o` Focus on other window
+
+## Printing
+Available through the following functions
+* `pr-ps-buffer-preview` Preview print the current buffer
+* `pr-ps-buffer-print` Print the current buffer
+* `pr-ps-region-preview` Preview print the selected region
+* `pr-ps-region-print` Print the selected region
+
+## Custom defined (see init.el)
+* `C-xg` Open URL under the cursor in your default browser
 
 ## Package management
 
