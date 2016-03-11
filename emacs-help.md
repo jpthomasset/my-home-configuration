@@ -72,6 +72,13 @@ Available through the following functions
 * `i` to select package to install
 * `x` to execute installation of selected packages
 
+
+## Ensime
+* `C-c C-b s` Start sbt
+* `C-c C-b c` Compile
+* `C-c C-b r` Run
+* `C-c C-v z` Start REPL
+
 ### Installed packages
 * elpa/markdown-mode
 * elpa/monokai-theme
