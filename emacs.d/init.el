@@ -24,6 +24,8 @@
 ;(setq pr-ps-printer-alist     '((MPC2050 "lpr" nil "-P" "MPC2050")))
 ;(pr-update-menus t)
 
+(add-to-list 'load-path '"~/.emacs.d/load-path")
+
 ; Focus window on open new file from window manager
 (defun px-raise-frame-and-give-focus ()
   (when window-system
@@ -43,3 +45,17 @@
 					; ENSIME (scala)
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+(require 'helm-config)
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(helm-mode 1)
+
+
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+(require 'shackle)
+(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+(shackle-mode)

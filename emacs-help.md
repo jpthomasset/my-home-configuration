@@ -88,3 +88,5 @@ Available through the following functions
 * elpa/jdee
 * scala-mode2
 * sbt-mode
+* helm
+* neotree
