@@ -6,7 +6,7 @@
 (tool-bar-mode 0) 
 (menu-bar-mode 0)
 (toggle-frame-fullscreen)
-(scroll-bar-mode 0)
+(scroll-bar-mode -1)
 (fset `yes-or-no-p `y-or-n-p)
 (load-theme 'monokai t)
 ; Set font size in 1/10pt
@@ -45,17 +45,26 @@
 					; ENSIME (scala)
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+(setq ensime-startup-snapshot-notification nil)
 
 (require 'helm-config)
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-x C-b") #'helm-buffers-list)
+(setq helm-ls-git-fuzzy-match t)
 (helm-mode 1)
+
+(require 'helm-ls-git)
+(global-set-key (kbd "C-x C-d") 'helm-browse-project)
 
 
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 
-(require 'shackle)
-(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
-(shackle-mode)
+;(require 'shackle)
+;(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.3)))
+;(shackle-mode)
+(custom-set-variables
+ '(helm-ls-git-show-abs-or-relative (quote relative))
+ )
