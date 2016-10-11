@@ -90,3 +90,4 @@ Available through the following functions
 * sbt-mode
 * helm
 * neotree
+* shackle (window size for helm mode)
