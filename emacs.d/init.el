@@ -73,8 +73,14 @@
 ;(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.3)))
 ;(shackle-mode)
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(helm-ls-git-show-abs-or-relative (quote relative))
- )
+ '(package-selected-packages
+   (quote
+    (magit use-package shackle scala-mode2 neotree monokai-theme markdown-mode js2-mode jdee helm-ls-git ensime ac-php))))
 
 ; Javascript settings
 (setq js-indent-level 4)
@@ -103,3 +109,11 @@
 
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
   (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
+
+(use-package magit)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
