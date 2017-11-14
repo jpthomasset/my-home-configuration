@@ -20,8 +20,11 @@
 (set-face-attribute 'default nil :height 100)
 ; Set backup dir to ~/.saves
 (setq backup-directory-alist `(("." . "~/.saves")))
+(setq make-backup-files nil)
 ; Open url underneath cursor `C-xg` for `go`
 (global-set-key "\C-xg" 'browse-url-at-point)
+
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
 ; Save session
 (desktop-save-mode 1)
@@ -48,11 +51,28 @@
 
 
 
+(require 'web-mode)
+
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("razor"    . "\\.scala.html\\'"))
+)
 
 					; ENSIME (scala)
 (use-package ensime
-  :ensure t)
-(setq ensime-startup-snapshot-notification nil)
+  :ensure t
+  :pin melpa-stable)
+;(setq ensime-startup-snapshot-notification nil)
+(setq ensime-startup-notification nil)
+(setq ensime-search-interface 'helm)
+
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :commands yas-minor-mode
+  :config (yas-reload-all))
+
+(global-set-key (kbd "<C-tab>") 'yas-expand)
 
 (require 'helm-config)
 (global-set-key (kbd "M-x") #'helm-M-x)
@@ -69,22 +89,18 @@
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 
-;(require 'shackle)
-;(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.3)))
-;(shackle-mode)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(helm-ls-git-show-abs-or-relative (quote relative))
- '(package-selected-packages
-   (quote
-    (magit use-package shackle scala-mode2 neotree monokai-theme markdown-mode js2-mode jdee helm-ls-git ensime ac-php))))
+(require 'shackle)
+(setq helm-display-function 'pop-to-buffer) ; make helm play nice
+(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+(shackle-mode)
 
-; Javascript settings
-(setq js-indent-level 4)
+
+                                        ; Javascript settings
+(require 'js2-mode)
+(setq js-indent-level 2)
 (setq-default indent-tabs-mode nil)
+(setq js2-basic-offset 2)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (use-package smartparens
   :diminish smartparens-mode
@@ -110,10 +126,20 @@
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
   (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 
-(use-package magit)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(require 'js2-refactor)
+(require 'xref-js2)
+
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "C-c C-r")
+(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+
+(define-key js-mode-map (kbd "M-.") nil)
+
+(add-hook 'js2-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+(global-auto-revert-mode 1)
+(require 'projectile)
+(require 'helm-projectile)
+(helm-projectile-on)
+
