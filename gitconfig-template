@@ -1,0 +1,55 @@
+[user]
+	email = fooman@example.com
+	name = Foo Man
+#	signingkey = ????????
+[color]
+  ui = auto
+[alias]
+  st = status
+  ci = commit
+  co = checkout
+  lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ar)%Creset'
+  mylog = log --author=jpthomasset --all --pretty=tformat:'%Cred%h%Creset - %Cgreen%ad%Creset %C(auto)%d%Creset %s' --date=local
+  oops = commit --amend --no-edit
+[core]
+  whitespace = -trailing-space
+	excludesfile = ~/.gitignore
+	editor = vim
+[diff]
+  mnemonicPrefix = true
+  renames = true
+  wordRegex = .
+[fetch]
+  recurseSubmodules = on-demand
+[grep]
+  extendedRegexp = true
+[log]
+  abbrevCommit = true
+[merge]
+  tool = meld
+  conflictStyle = diff3
+[mergetool]
+  keepBackup = false
+  keepTemporaries = false
+  prompt = false
+[pull]
+  # This is GREATâ€¦ when you know what you're doing and are careful
+  # not to pull --no-rebase over a local line containing a true merge.
+  # rebase = true
+  # WARNING! This option, which does away with the one gotcha of
+  # auto-rebasing on pulls, is only available from 1.8.5 onwards.
+  # rebase = preserve
+[push]
+  default = upstream
+[rerere]
+  #autoupdate = true
+  enabled = true
+[status]
+  submoduleSummary = true
+  showUntrackedFiles = all
+[color "branch"]
+  upstream = cyan
+[tag]
+  sort = version:refname
+[rerere]
+	enabled = false
