@@ -10,6 +10,10 @@
   (package-install 'use-package))
 (require 'use-package)
 
+;; ********** Theme ************
+(use-package monokai-theme
+	     :ensure t)
+
 (tool-bar-mode 0) 
 (menu-bar-mode 0)
 (toggle-frame-fullscreen)
@@ -18,22 +22,13 @@
 (load-theme 'monokai t)
 ; Set font size in 1/10pt
 (set-face-attribute 'default nil :height 100)
-; Set backup dir to ~/.saves
+
+;; ******** Session & backup settings ********
+;; Set backup dir to ~/.saves
 (setq backup-directory-alist `(("." . "~/.saves")))
 (setq make-backup-files nil)
-; Open url underneath cursor `C-xg` for `go`
-(global-set-key "\C-xg" 'browse-url-at-point)
-
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-
 ; Save session
 (desktop-save-mode 1)
-
-;(require 'printing)				; Print options
-;(setq pr-ps-name       'MPC2050)
-;(setq pr-ps-printer-alist     '((MPC2050 "lpr" nil "-P" "MPC2050")))
-;(pr-update-menus t)
-
 (add-to-list 'load-path '"~/.emacs.d/load-path")
 
 ; Focus window on open new file from window manager
@@ -49,21 +44,35 @@
   (server-start)
   (add-hook 'server-switch-hook 'px-raise-frame-and-give-focus))
 
-
-
-(require 'web-mode)
-
+(use-package web-mode
+  :ensure t)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
+; Set web-mode for PlayFramework template file 
 (setq web-mode-engines-alist
       '(("razor"    . "\\.scala.html\\'"))
 )
 
-					; ENSIME (scala)
+(use-package magit
+	     :ensure t)
+
+(use-package helm
+	     :ensure t)
+(require 'helm-config)
+(use-package helm-ls-git
+  :ensure t)
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-x C-b") #'helm-buffers-list)
+(global-set-key (kbd "C-x C-d") 'helm-browse-project)
+(setq helm-ls-git-fuzzy-match t)
+(helm-mode 1)
+
+;; ****** ENSIME (scala) *******
 (use-package ensime
   :ensure t
   :pin melpa-stable)
-;(setq ensime-startup-snapshot-notification nil)
 (setq ensime-startup-notification nil)
 (setq ensime-search-interface 'helm)
 
@@ -71,38 +80,38 @@
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config (yas-reload-all))
-
 (global-set-key (kbd "<C-tab>") 'yas-expand)
 
-(require 'helm-config)
-(global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
-(global-set-key (kbd "C-x C-b") #'helm-buffers-list)
-(setq helm-ls-git-fuzzy-match t)
-(helm-mode 1)
-
-(require 'helm-ls-git)
-(global-set-key (kbd "C-x C-d") 'helm-browse-project)
-
-
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
-
-(require 'shackle)
+(use-package shackle
+	     :ensure t)
 (setq helm-display-function 'pop-to-buffer) ; make helm play nice
 (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
 (shackle-mode)
 
-
-                                        ; Javascript settings
-(require 'js2-mode)
+; Javascript settings
+(use-package js2-mode
+  :ensure t)
 (setq js-indent-level 2)
 (setq-default indent-tabs-mode nil)
 (setq js2-basic-offset 2)
+(use-package js2-refactor
+  :ensure t)
+(use-package xref-js2
+  :ensure t)
+
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "C-c C-r")
+(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+(define-key js-mode-map (kbd "M-.") nil)
+(add-hook 'js2-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+
+
 (use-package smartparens
+  :ensure t
   :diminish smartparens-mode
   :commands
   smartparens-strict-mode
@@ -126,20 +135,26 @@
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
   (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 
-(require 'js2-refactor)
-(require 'xref-js2)
-
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
-
-(define-key js-mode-map (kbd "M-.") nil)
-
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
 (global-auto-revert-mode 1)
-(require 'projectile)
-(require 'helm-projectile)
+(use-package projectile
+  :ensure t)
+(use-package helm-projectile
+  :ensure t)
 (helm-projectile-on)
 
+;; Scala mode hook
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (show-paren-mode)
+            (smartparens-mode)
+            (yas-minor-mode)
+            (company-mode)
+            (ensime-mode)
+            (scala-mode:goto-start-of-code)))
+
+;; ***** Misc *****
+;; Open url underneath cursor `C-x g` for `go`
+(global-set-key "\C-xg" 'browse-url-at-point)
+;; Scroll one line at a time
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) 
