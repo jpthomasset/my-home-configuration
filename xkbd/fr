@@ -24,4 +24,6 @@ xkb_symbols "oss_dev" {
     // Mostly for the "`" 
     key <AB10>    { [           exclam,            grave,           exclamdown,             section ] }; // ! ` ¡ §
 
+    // Make CAPS key a Super key
+    key <CAPS> { [ Super_L ] };
 };
